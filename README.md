@@ -1,70 +1,74 @@
-
-
 # fipID
 
+Sistema de identidade e autenticação com **login único (SSO)**, desenvolvido em equipe.
 
+Com uma única conta no fipID, o usuário acessa diferentes sistemas integrados sem precisar de um login e uma senha para cada aplicação, no mesmo conceito do "Entrar com Google".
 
-Plataforma Backend as a Service (BaaS) desenvolvida em equipe.
+O fipID utiliza o **Keycloak** como plataforma de gerenciamento de identidade, responsável por autenticação, sessões, permissões e integração com as aplicações, por meio dos padrões OAuth 2.0 e OpenID Connect (OIDC).
 
+## Objetivos
 
+- Centralizar o gerenciamento de usuários
+- Permitir login único em diferentes sistemas
+- Reduzir a quantidade de senhas que o usuário precisa memorizar
+- Aumentar a segurança da autenticação (MFA, bloqueio por tentativas, auditoria)
+- Controlar sessões, permissões e acessos por aplicação
+- Facilitar a integração de novos sistemas
 
-## Módulo: Autenticação
+## Como funciona
 
+1. O usuário acessa uma aplicação integrada.
+2. A aplicação identifica que ele não está autenticado e o redireciona para o fipID.
+3. O usuário informa suas credenciais e o fipID cria uma sessão.
+4. O fipID devolve à aplicação as informações para identificar o usuário, e a aplicação concede o acesso conforme as permissões dele.
+5. Ao acessar outra aplicação integrada, o usuário reaproveita a sessão do fipID e entra sem novo login.
 
+```text
+                    ┌──────────────────┐
+                    │      USUÁRIO     │
+                    └────────┬─────────┘
+                             │
+                             ▼
+                    ┌──────────────────┐
+                    │      fipID       │
+                    │     Keycloak     │
+                    └────────┬─────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              │              │              │
+              ▼              ▼              ▼
+       ┌────────────┐ ┌────────────┐ ┌────────────┐
+       │   Portal   │ │  Sistema   │ │ Biblioteca │
+       │  do Aluno  │ │ Acadêmico  │ │  Digital   │
+       └────────────┘ └────────────┘ └────────────┘
+```
 
-O Keycloak será utilizado para gerenciar a autenticação e os usuários.
+## Tecnologias
 
+- Keycloak 26.8.1 (identidade e autenticação)
+- OpenID Connect e OAuth 2.0
+- PostgreSQL 16 (banco de dados do Keycloak)
+- Docker e Docker Compose
 
-
-## Ambiente de desenvolvimento
-
-
-
-- Docker
-
-- Keycloak 26.8.1
-
-
-
-## Configuração inicial
-
-
+## Status da configuração
 
 - [x] Iniciar o Keycloak via Docker
-
 - [x] Criar o Realm `fipid-dev`
-
 - [x] Criar o Client `fipid-app`
-
 - [x] Criar usuário de teste
-
 - [ ] Testar o fluxo de autenticação
-
 - [ ] Padronizar a configuração para a equipe
 
+## Roadmap
 
-
-## Acesso local
-
-
-
-O painel administrativo fica disponível em:
-
-
-
-http://localhost:8080
-
-
-
-## Observação
-
-
-
-As configurações foram realizadas localmente e ainda precisam ser
-
-documentadas ou automatizadas para que outros integrantes possam
-
-reproduzir o ambiente.
+- [ ] Exportar o realm para `infra/keycloak/` e importá-lo automaticamente ao subir o ambiente
+- [ ] Configurar o realm conforme os requisitos (campos do cadastro, política de senha, MFA, eventos, roles e grupos)
+- [ ] Tema em português e responsivo
+- [ ] Aplicações de exemplo integradas, para validar o SSO e a autorização por aplicação
+- [ ] Guia de integração para novos sistemas
+- [ ] Dashboard administrativo
+- [ ] Preparação para produção (proxy reverso com HTTPS, backups e monitoramento)
+- [ ] Testes de aceitação
 
 ## Como rodar o ambiente local
 
@@ -142,3 +146,13 @@ docker compose version
 - **O admin não entra:** o login do admin é em `http://localhost:8080/admin`, e não em `/realms/fipid-dev/...`. Confira também a senha usada na primeira inicialização.
 - **Precisa recomeçar do zero (ambiente de dev):** `docker compose down -v` e depois `docker compose up -d`.
 
+## Observação
+
+A configuração do realm (client, roles e usuários de teste) foi feita localmente e ainda precisa ser exportada para o repositório, para que todos os integrantes tenham exatamente o mesmo ambiente.
+
+## Como contribuir
+
+- Crie uma branch por tarefa, a partir da branch principal da equipe (por exemplo, `feature/nome-da-tarefa`).
+- Use mensagens de commit padronizadas: `feat:`, `fix:`, `docs:`.
+- Abra um Pull Request e peça revisão de outro integrante antes do merge.
+- Nunca faça commit do `.env` nem de senhas reais.
