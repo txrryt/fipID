@@ -1,6 +1,6 @@
 
 
-\# fipID
+# fipID
 
 
 
@@ -8,7 +8,7 @@ Plataforma Backend as a Service (BaaS) desenvolvida em equipe.
 
 
 
-\## Módulo: Autenticação
+## Módulo: Autenticação
 
 
 
@@ -16,35 +16,35 @@ O Keycloak será utilizado para gerenciar a autenticação e os usuários.
 
 
 
-\## Ambiente de desenvolvimento
+## Ambiente de desenvolvimento
 
 
 
-\- Docker
+- Docker
 
-\- Keycloak 26.8.1
-
-
-
-\## Configuração inicial
+- Keycloak 26.8.1
 
 
 
-\- \[x] Iniciar o Keycloak via Docker
-
-\- \[x] Criar o Realm `FipID-dev`
-
-\- \[x] Criar o Client `fipid-app`
-
-\- \[x] Criar usuário de teste
-
-\- \[ ] Testar o fluxo de autenticação
-
-\- \[ ] Padronizar a configuração para a equipe
+## Configuração inicial
 
 
 
-\## Acesso local
+- [x] Iniciar o Keycloak via Docker
+
+- [x] Criar o Realm `fipid-dev`
+
+- [x] Criar o Client `fipid-app`
+
+- [x] Criar usuário de teste
+
+- [ ] Testar o fluxo de autenticação
+
+- [ ] Padronizar a configuração para a equipe
+
+
+
+## Acesso local
 
 
 
@@ -56,7 +56,7 @@ http://localhost:8080
 
 
 
-\## Observação
+## Observação
 
 
 
